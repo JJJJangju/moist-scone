@@ -1,0 +1,112 @@
+{% if user.is_authenticated %}
+<a>환영합니다. {{ user.username }} 님!</a>
+<a href="{% url 'create' %}">글쓰기</a>
+<a href="{% url 'logout' %}">logout</a>
+<a href="{% url 'myprofile' user.id %}">프로필</a>
+{% else %}
+<a href="{% url 'signup' %}">Signup</a>
+<a href="{% url 'login' %}">Login</a>
+<!-- <form id="logout" method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <input type="submit" />
+</form> -->
+
+{% endif %}
+{% for blog in blog %}
+<table class="tg">
+    <thead>
+        <tr>
+            <th class="table1" rowspan="3" style="border-right: none; border-bottom: none;" width="100">댓글수</th>
+            <th class="table2" rowspan="2" style="border-bottom: none; border-right: none; border-left: none;"
+                width="400">
+                <a href="{% url 'detail' blog.id %}">
+                    <h1>{{blog.title}}</h1>
+                </a>
+            </th>
+            <th class="table1" rowspan="6" style="border-left: none;" width="200"><a
+                    href="{% url 'detail' blog.id %}"><img src="{{blog.image.url}}" width="200"></a></th>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td class="table3" rowspan="2" width="400"
+                style="border-right: none; border-left: none; border-bottom: none; border-top: none;">
+                <p>{{blog.sum}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td class="table3" rowspan="3" style="border-right: none; border-top: none;" width="100">
+                <button id="{{blog.id}}" onclick="post_like(this.id)">
+                    <!--좋아효 버튼을 만들어주기-->
+                    {%if request.user in blog.like.all%}
+                    <!-- 로그인 한 유저가 좋아요를 누른 유저일때  -->
+                    <i id="heart" class="fas fa-heart"></i>
+                    {%else%}
+                    <!-- 로그인 한 유저가 좋아요를 누른 유저가 아닐 때  -->
+                    <i id="heart" class="far fa-heart"></i>
+                    {%endif%}
+                    <span id="like_count">{{blog.like.count}}</span>
+                    <!--{{blog.like.count}}가 없어도 되지만! 처음에 0을 보여주기 위해 넣어줌!-->
+                </button></td>
+        </tr>
+        <tr>
+            <td class="table3" rowspan="2" style="border-right: none; border-left: none; border-top: none;" width="200">
+                <p>{{ blog.created_at }}</p>
+            </td>
+        </tr>
+    </thead>
+</table>
+<!-- <h1> {{ blog.title }}</h1>
+    <img src="{{blog.image.url}}" width="100">
+    <p>{{ blog.sum }}<a href="{% url 'detail' blog.id %}">더보기</a></p>
+    <p>{{ blog.created_at }}</p>
+    <p>{{ blog.updated_at }}</p>-->
+{% endfor %}
+
+<style type="text/css">
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    .tg td {
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        overflow: hidden;
+        padding: 3px 20px;
+        word-break: normal;
+    }
+
+    .tg th {
+        border-color: black;
+        border-style: solid;
+        border-width: 1px;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        overflow: hidden;
+        padding: 3px 20px;
+        word-break: normal;
+    }
+
+    .tg .table1 {
+        border-color: #000000;
+        text-align: center;
+        vertical-align: top
+    }
+
+    .tg .table2 {
+        border-color: #000000;
+        text-align: left;
+        vertical-align: top
+    }
+
+    .tg .table3 {
+        border-color: #000000;
+        text-align: left;
+        vertical-align: middle
+    }
+</style>

@@ -1,0 +1,17 @@
+.toast_like{
+    width: 250px;
+    height: 40px;
+
+    position: fixed;
+    left: 50%;
+    margin-left: -125px;
+    top: 100px;
+
+    background-color: #383838;
+    color: #F0F0F0;
+    font-family: Calibri;
+    font-size: 15px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 2px;
+}

@@ -1,0 +1,65 @@
+{% load static %}
+
+<head>
+    <link rel='stylesheet' href="{% static 'css/detail.css' ?after %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+</head>
+
+<body>
+    <p>{{blog.created_at}}</p>
+    <p>{{blog.updated_at}}</p>
+    <h1>{{blog.title}}</h1>
+    <img src="{{blog.image.url}}" width="500">
+    <p>{{blog.body}}</p>
+
+    <a href="{% url 'main' %}">돌아가기</a>
+    <a href="{% url 'update' blog.id %}">수정하기</a>
+    <a href="{% url 'delete' blog.id %}">삭제하기</a>
+
+    <button id="{{blog.id}}" onclick="post_like(this.id)">
+        <!--좋아효 버튼을 만들어주기-->
+        {%if request.user in blog.like.all%}
+        <!-- 로그인 한 유저가 좋아요를 누른 유저일때  -->
+        <i id="heart" class="fas fa-heart"></i>
+        {%else%}
+        <!-- 로그인 한 유저가 좋아요를 누른 유저가 아닐 때  -->
+        <i id="heart" class="far fa-heart"></i>
+        {%endif%}
+        <span id="like_count">{{blog.like.count}}</span>
+        <!--{{blog.like.count}}가 없어도 되지만! 처음에 0을 보여주기 위해 넣어줌!-->
+    </button>
+
+    <!-- toast message -->
+    <div class='toast_like' style='display:none'>
+        <div id="message"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function post_like(id) {
+            console.log("hi")
+            $.ajax({
+                url: "{%url 'likes'%}", // data를 전송할 url 입니다.
+                data: {
+                    'blog_id': id
+                }, // post_id 라는 name으로 id 값 전송
+                dataType: "json",
+                success: function (response) { // ajax 통신이 정상적으로 완료되었을 때
+                    $('#like_count').html(response.like_count) //id가 like_count의 내용을 전송받은 좋아요 수로 바꾼다
+                    $('#message').html(response.message) //id가 message의 내용을 전송받은 message로 바꾼다
+                    $('.toast_like').fadeIn(400).delay(100).fadeOut(400) //class가 toast인 것을 서서히 나타나게 하는 메서드입니다.
+                    if (response.message == "좋아요")
+                    //좋아요 눌렀을 때 
+                    {
+                        $('#heart').attr("class", "fas fa-heart")
+                    } else if (response.message == "좋아요 취소")
+                    //좋아요 상태에서 다시 눌렀을 때 
+                    {
+                        $('#heart').attr("class", "far fa-heart")
+                    }
+                }
+            })
+        }
+    </script>
+</body>

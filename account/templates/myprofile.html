@@ -1,0 +1,8 @@
+<p>내가 좋아요 누른 글</p>
+{% for post in post_likes %}
+<a href="{%url 'detail' post.id%}">{{post.title}}</p>
+    <p>{{post.content|truncatewords:50}}</p>
+    <p>{{post.user}}</p>
+    <p>{{post.updated_at|date:"Y년m월d일"}}</p>
+    <img src="{{blog.image.url}}" width="500">
+    {% endfor %}
