@@ -1,13 +1,203 @@
 <form action="{% url 'create' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <h4>제목: </h4>
-    <input type="text" name="title">
-    <br>
-    <h4>사진: </h4>
-    <input type="file" name="image">
-    <br>
-    <h4>본문: </h4>
-    <textarea name="body" cols="30" rows="10"></textarea>
-    <br>
-    <input type="submit" value="제출">
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="css/h.css" />
+        <script src="https://kit.fontawesome.com/c038fa89f4.js" crossorigin="anonymous"></script>
+        <style>
+            body {
+                font-weight: 800;
+                background-color: white;
+                padding: 10px 20px;
+                color: #020202;
+                font-family: "Open sans";
+
+                height: 900px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            main {
+                margin-top: 10%;
+                width: 75%;
+                height: 100%;
+            }
+
+            .head_buttons {
+                display: flex;
+                justify-content: space-between;
+                height: 50px;
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            .head_button {
+                box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 16px -8px,
+                    rgba(0, 0, 0, 0.024) 0px -6px 16px -6px;
+                background-color: rgb(175, 210, 245);
+                height: 35px;
+                width: 120px;
+                border-radius: 10px;
+                color: black;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                cursor: pointer;
+            }
+
+            .title_content {
+                box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 16px -8px,
+                    rgba(0, 0, 0, 0.024) 0px -6px 16px -6px;
+                background-color: rgb(175, 210, 245);
+                height: 500px;
+                width: 100%;
+                padding: 10px 15px;
+                border-radius: 5px;
+            }
+
+            .content {
+                display: flex;
+
+                align-items: flex-start;
+            }
+
+            .content textarea {
+                padding: 0px;
+                width: 90%;
+                height: 100%;
+                box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 16px -8px,
+                    rgba(0, 0, 0, 0.024) 0px -6px 16px -6px;
+            }
+
+            .title {
+                margin: 10;
+            }
+
+            .content2 {
+                margin-top: 20px;
+                display: flex;
+
+                align-items: flex-start;
+            }
+
+            .check_box {
+                background-color: #f1c40f;
+                padding: 6px;
+                box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 16px -8px,
+                    rgba(0, 0, 0, 0.024) 0px -6px 16px -6px;
+            }
+
+            .content2 input {
+                border: none;
+                font-size: 15px;
+                padding: 5px;
+                box-shadow: rgba(0, 0, 0, 0.3) 0px 8px 16px -8px,
+                    rgba(0, 0, 0, 0.024) 0px -6px 16px -6px;
+            }
+
+            .content2 textarea {
+                width: 90%;
+                border-radius: 0;
+                padding: 10px;
+                border: none;
+                font-size: 15px;
+            }
+
+            .span1 {
+                margin-right: 22px;
+            }
+
+            .span2 {
+                margin-right: 8px;
+            }
+
+            .span3 {
+                margin-right: 17px;
+            }
+
+            .span4 {
+                margin-right: 23px;
+            }
+
+            .chat__write {
+                transition: width 0.5s ease-in, border-radius 0.5s ease-in-out,
+                    transform 0.5s ease-in-out;
+            }
+
+            .chat__write:focus {
+                outline: none;
+                height: 500px;
+                transform: translateY(0px);
+                border-radius: 30px;
+
+                animation: float 3s linear infinite forwards;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main>
+            <div class="head_buttons">
+                <div class="head_button">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>목록</span>
+                </div>
+                <div class="head_button">
+                    <span>작성완료</span>
+                    <input type="submit" value="제출">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+            </div>
+            <div class="title_content">
+                <div class="title content2">
+                    <span class="title span1">제목</span>
+                    <input type="text" name="name" size="55" placeholder="제목을 입력하세요" />
+                </div>
+                <div class="check content2">
+                    <span class="span2">말머리 </span>
+                    <div class="check_box">
+                        <input type="checkbox" name="selectCheck" id="" onclick="oneCheckbox(this)" />스펙 검사
+                        <input type="checkbox" name="selectCheck" id="" onclick="oneCheckbox(this)" />진로 상담
+                        <input type="checkbox" name="selectCheck" id="" onclick="oneCheckbox(this)" />꿀팁
+                        <input type="checkbox" name="selectCheck" id="" onclick="oneCheckbox(this)" />면접 후기
+                        <input type="checkbox" name="selectCheck" id="" onclick="oneCheckbox(this)" />기타 질문
+                    </div>
+                </div>
+
+                <div class="content content2">
+                    <span class="span4">내용</span>
+                    <textarea class="chat__write" name="content" id="" cols="85" rows="15"
+                        placeholder="상세 내용을 입력하세요"></textarea>
+                </div>
+
+                <h4>사진: </h4>
+                <input type="file" name="image">
+                <br>
+            </div>
+        </main>
+        <script>
+            // 체크박스 중복 방지
+            function oneCheckbox(a) {
+                var obj = document.getElementsByName("selectCheck");
+                for (var i = 0; i < obj.length; i++) {
+                    if (obj[i] != a) {
+                        obj[i].checked = false;
+                    }
+                }
+            }
+        </script>
+    </body>
+
+    </html>
 </form>
